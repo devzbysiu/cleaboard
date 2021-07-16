@@ -1,46 +1,7 @@
-use anyhow::Result;
-use druid::widget::{Button, Flex, Label};
-use druid::{AppLauncher, Data, Env, PlatformError, Widget, WidgetExt, WindowDesc};
-use std::process::Command;
+use druid::{AppLauncher, PlatformError, WindowDesc};
 
-const TURN_OFF_LABEL: &str = "Turn off the keyboard";
-const TURN_ON_LABEL: &str = "Turn on the keyboard";
-
-const TURNED_OFF_HEADER: &str = "Keyboard is turned off! You can start cleaning :)";
-const TURNED_ON_HEADER: &str = "Keyboard is turned on";
-
-#[derive(Clone, Data)]
-struct State {
-    enabled: bool,
-}
-
-impl State {
-    fn new(enabled: bool) -> Self {
-        Self { enabled }
-    }
-}
-
-fn get_button_text(enabled: bool) -> String {
-    if enabled {
-        TURN_OFF_LABEL.into()
-    } else {
-        TURN_ON_LABEL.into()
-    }
-}
-
-fn get_header_text(enabled: bool) -> String {
-    if enabled {
-        TURNED_ON_HEADER.into()
-    } else {
-        TURNED_OFF_HEADER.into()
-    }
-}
-
-impl Default for State {
-    fn default() -> Self {
-        Self::new(true)
-    }
-}
+use state::State;
+use ui::ui_builder;
 
 fn main() -> Result<(), PlatformError> {
     let main_window = WindowDesc::new(ui_builder())
@@ -52,38 +13,93 @@ fn main() -> Result<(), PlatformError> {
         .launch(State::default())
 }
 
-fn ui_builder() -> impl Widget<State> {
-    let header = Label::new(|state: &State, _env: &Env| get_header_text(state.enabled))
-        .with_text_size(18.)
-        .padding(15.0)
-        .center();
+mod ui {
+    use crate::keyboard;
+    use crate::state::{button_text, header_text, State};
+    use druid::widget::{Button, Flex, Label};
+    use druid::{Env, Widget, WidgetExt};
 
-    let btn_label =
-        Label::new(|state: &State, _env: &Env| get_button_text(state.enabled)).with_text_size(18.);
-    let button = Button::from_label(btn_label)
-        .on_click(|_ctx, state, _env| {
-            state.enabled = !state.enabled;
-            if state.enabled {
-                turn_on_keyboard().expect("failed to turn on the keyboard");
-            } else {
-                turn_off_keyboard().expect("failed to turn off the keyboard");
-            }
-        })
-        .padding(15.0);
+    pub(crate) fn ui_builder() -> impl Widget<State> {
+        let header = Label::new(|state: &State, _env: &Env| header_text(state.enabled))
+            .with_text_size(18.)
+            .padding(15.0)
+            .center();
 
-    Flex::column().with_child(header).with_child(button)
+        let btn_label =
+            Label::new(|state: &State, _env: &Env| button_text(state.enabled)).with_text_size(18.);
+        let button = Button::from_label(btn_label)
+            .on_click(|_ctx, state, _env| {
+                state.enabled = !state.enabled;
+                if state.enabled {
+                    keyboard::turn_on().expect("failed to turn on the keyboard");
+                } else {
+                    keyboard::turn_off().expect("failed to turn off the keyboard");
+                }
+            })
+            .padding(15.0);
+
+        Flex::column().with_child(header).with_child(button)
+    }
 }
 
-fn turn_off_keyboard() -> Result<()> {
-    Command::new("xinput").arg("float").arg("17").spawn()?;
-    Ok(())
+mod state {
+    use druid::Data;
+
+    const TURN_OFF_LABEL: &str = "Turn off the keyboard";
+    const TURN_ON_LABEL: &str = "Turn on the keyboard";
+
+    const TURNED_OFF_HEADER: &str = "Keyboard is turned off! You can start cleaning :)";
+    const TURNED_ON_HEADER: &str = "Keyboard is turned on";
+
+    #[derive(Clone, Data)]
+    pub(crate) struct State {
+        pub(crate) enabled: bool,
+    }
+
+    impl State {
+        fn new(enabled: bool) -> Self {
+            Self { enabled }
+        }
+    }
+
+    pub(crate) fn button_text(enabled: bool) -> String {
+        if enabled {
+            TURN_OFF_LABEL.into()
+        } else {
+            TURN_ON_LABEL.into()
+        }
+    }
+
+    pub(crate) fn header_text(enabled: bool) -> String {
+        if enabled {
+            TURNED_ON_HEADER.into()
+        } else {
+            TURNED_OFF_HEADER.into()
+        }
+    }
+
+    impl Default for State {
+        fn default() -> Self {
+            Self::new(true)
+        }
+    }
 }
 
-fn turn_on_keyboard() -> Result<()> {
-    Command::new("xinput")
-        .arg("reattach")
-        .arg("17")
-        .arg("3")
-        .spawn()?;
-    Ok(())
+mod keyboard {
+    use anyhow::Result;
+    use std::process::Command;
+
+    pub(crate) fn turn_off() -> Result<()> {
+        Command::new("xinput").arg("float").arg("17").spawn()?;
+        Ok(())
+    }
+
+    pub(crate) fn turn_on() -> Result<()> {
+        Command::new("xinput")
+            .arg("reattach")
+            .arg("17")
+            .arg("3")
+            .spawn()?;
+        Ok(())
+    }
 }
