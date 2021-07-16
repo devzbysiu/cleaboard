@@ -3,7 +3,7 @@
   <h1><code>cleaboard</code></h1>
 
   <h3>
-    <strong>CHANGEME</strong>
+    <strong>Make keyboard cleaning easier</strong>
   </h3>
 
   <p>
@@ -25,8 +25,6 @@
     <span> | </span>
     <a href="#installation">Installation</a>
     <span> | </span>
-    <a href="#configuration">Configuration</a>
-    <span> | </span>
     <a href="#license">License</a>
     <span> | </span>
     <a href="#contribution">Contribution</a>
@@ -37,13 +35,13 @@
 
 # <p id="about">About</p>
 
-## --- TODO ---
+This is small piece of software which allows to disable the keyboard.
+The initial purpose of this is to make keyboard cleaning easier. You
+just start Cleaboard, click a button and start cleaning your keyboard
+without worrying about pressing random keys. When you are done, just
+click the button one more time and the keyboard will be responsive again.
 
 # <p id="installation">Installation</p>
-
-## --- TODO ---
-
-# <p id="configuration">Configuration</p>
 
 ## --- TODO ---
 
