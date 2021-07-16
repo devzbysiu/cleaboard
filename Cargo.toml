@@ -28,6 +28,7 @@ homepage = ""
 documentation = ""
 
 [dependencies]
+anyhow = "1.0.42"
 druid = { git = "https://github.com/linebender/druid" }
 log = "0.4.11"
 pretty_env_logger = "0.4.0"

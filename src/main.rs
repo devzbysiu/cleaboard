@@ -1,5 +1,7 @@
+use anyhow::Result;
 use druid::widget::{Button, Flex, Label};
 use druid::{AppLauncher, Data, Env, PlatformError, Widget, WidgetExt, WindowDesc};
+use std::process::Command;
 
 const TURN_OFF_LABEL: &str = "Turn off the keyboard";
 const TURN_ON_LABEL: &str = "Turn on the keyboard";
@@ -59,8 +61,29 @@ fn ui_builder() -> impl Widget<State> {
     let btn_label =
         Label::new(|state: &State, _env: &Env| get_button_text(state.enabled)).with_text_size(18.);
     let button = Button::from_label(btn_label)
-        .on_click(|_ctx, state, _env| state.enabled = !state.enabled)
+        .on_click(|_ctx, state, _env| {
+            state.enabled = !state.enabled;
+            if state.enabled {
+                turn_on_keyboard().expect("failed to turn on the keyboard");
+            } else {
+                turn_off_keyboard().expect("failed to turn off the keyboard");
+            }
+        })
         .padding(15.0);
 
     Flex::column().with_child(header).with_child(button)
+}
+
+fn turn_off_keyboard() -> Result<()> {
+    Command::new("xinput").arg("float").arg("17").spawn()?;
+    Ok(())
+}
+
+fn turn_on_keyboard() -> Result<()> {
+    Command::new("xinput")
+        .arg("reattach")
+        .arg("17")
+        .arg("3")
+        .spawn()?;
+    Ok(())
 }
