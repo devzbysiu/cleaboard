@@ -4,8 +4,6 @@ use state::State;
 use ui::ui_builder;
 
 fn main() -> Result<(), PlatformError> {
-    keyboard::check_prerequisites()?;
-
     let main_window = WindowDesc::new(ui_builder())
         .title("Cleaboard")
         .window_size((450., 120.))
@@ -17,12 +15,12 @@ fn main() -> Result<(), PlatformError> {
 
 mod ui {
     use crate::keyboard;
-    use crate::state::{button_text, header_text, State};
+    use crate::state::{button_text, log_text, State};
     use druid::widget::{Button, Flex, Label};
     use druid::{Env, Widget, WidgetExt};
 
     pub(crate) fn ui_builder() -> impl Widget<State> {
-        let header = Label::new(|state: &State, _env: &Env| header_text(state.enabled))
+        let header = Label::new(|state: &State, _env: &Env| log_text(state))
             .with_text_size(18.)
             .padding(15.0)
             .center();
@@ -45,6 +43,7 @@ mod ui {
 }
 
 mod state {
+    use crate::keyboard;
     use druid::Data;
 
     const TURN_OFF_LABEL: &str = "Turn off the keyboard";
@@ -56,11 +55,16 @@ mod state {
     #[derive(Clone, Data)]
     pub(crate) struct State {
         pub(crate) enabled: bool,
+        pub(crate) err_msg: Option<String>,
     }
 
     impl State {
         fn new(enabled: bool) -> Self {
-            Self { enabled }
+            let err_msg = match keyboard::check_prerequisites() {
+                Ok(()) => None,
+                Err(e) => Some(format!("{}", e)),
+            };
+            Self { enabled, err_msg }
         }
     }
 
@@ -72,11 +76,16 @@ mod state {
         }
     }
 
-    pub(crate) fn header_text(enabled: bool) -> String {
-        if enabled {
-            TURNED_ON_HEADER.into()
-        } else {
-            TURNED_OFF_HEADER.into()
+    pub(crate) fn log_text(state: &State) -> String {
+        match &state.err_msg {
+            Some(msg) => msg.into(),
+            None => {
+                if state.enabled {
+                    TURNED_ON_HEADER.into()
+                } else {
+                    TURNED_OFF_HEADER.into()
+                }
+            }
         }
     }
 
@@ -88,14 +97,14 @@ mod state {
 }
 
 mod keyboard {
-    use anyhow::{bail, Result};
+    use anyhow::{anyhow, Result};
     use std::process::Command;
 
     pub(crate) fn check_prerequisites() -> Result<()> {
-        match Command::new("xinput").arg("--version").status() {
+        match Command::new("xiput").arg("--version").status() {
             Ok(status) if status.success() => Ok(()),
             _ => {
-                bail!("Looks like 'xinput' is not available. Please ensure it's working by running 'xinput --version'");
+                Err(anyhow!("Looks like 'xinput' is not available. Please ensure it's working by running 'xinput --version'"))
             }
         }
     }
