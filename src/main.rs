@@ -102,7 +102,7 @@ mod keyboard {
     use std::process::Command;
 
     pub(crate) fn check_prerequisites() -> Result<()> {
-        match Command::new("xiput").arg("--version").status() {
+        match Command::new("xinput").arg("--version").status() {
             Ok(status) if status.success() => Ok(()),
             _ => {
                 Err(anyhow!("Looks like 'xinput' is not available. Please ensure it's working by running 'xinput --version'"))
