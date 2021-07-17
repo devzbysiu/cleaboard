@@ -4,6 +4,8 @@ use state::State;
 use ui::ui_builder;
 
 fn main() -> Result<(), PlatformError> {
+    keyboard::check_prerequisites()?;
+
     let main_window = WindowDesc::new(ui_builder())
         .title("Cleaboard")
         .window_size((450., 120.))
@@ -86,8 +88,17 @@ mod state {
 }
 
 mod keyboard {
-    use anyhow::Result;
+    use anyhow::{bail, Result};
     use std::process::Command;
+
+    pub(crate) fn check_prerequisites() -> Result<()> {
+        match Command::new("xinput").arg("--version").status() {
+            Ok(status) if status.success() => Ok(()),
+            _ => {
+                bail!("Looks like 'xinput' is not available. Please ensure it's working by running 'xinput --version'");
+            }
+        }
+    }
 
     pub(crate) fn turn_off() -> Result<()> {
         Command::new("xinput").arg("float").arg("17").spawn()?;
