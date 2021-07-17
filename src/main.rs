@@ -22,7 +22,7 @@ mod ui {
     pub(crate) fn ui_builder() -> impl Widget<State> {
         let header = Label::new(|state: &State, _env: &Env| log_text(state))
             .with_text_size(18.)
-            .padding(15.0)
+            .padding(15.)
             .center();
 
         let btn_label =
@@ -37,7 +37,7 @@ mod ui {
                 }
             })
             .disabled_if(|state: &State, _env: &Env| state.err_msg.is_some())
-            .padding(15.0);
+            .padding(15.);
 
         Flex::column().with_child(header).with_child(button)
     }
