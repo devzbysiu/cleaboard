@@ -36,6 +36,7 @@ mod ui {
                     keyboard::turn_off().expect("failed to turn off the keyboard");
                 }
             })
+            .disabled_if(|state: &State, _env: &Env| state.err_msg.is_some())
             .padding(15.0);
 
         Flex::column().with_child(header).with_child(button)
