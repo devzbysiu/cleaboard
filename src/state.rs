@@ -1,4 +1,3 @@
-use crate::keyboard::{Keyboard, PcKeyboard};
 use druid::Data;
 
 const TURN_OFF_LABEL: &str = "Turn off the keyboard";
@@ -14,11 +13,7 @@ pub(crate) struct State {
 }
 
 impl State {
-    fn new(enabled: bool) -> Self {
-        let err_msg = match PcKeyboard::check_prerequisites() {
-            Ok(()) => None,
-            Err(e) => Some(format!("{}", e)),
-        };
+    pub(crate) fn new(enabled: bool, err_msg: Option<String>) -> Self {
         Self { enabled, err_msg }
     }
 
@@ -54,10 +49,14 @@ impl State {
     pub(crate) fn has_err(&self) -> bool {
         self.err_msg.is_some()
     }
+
+    pub(crate) fn err_msg<S: Into<String>>(&mut self, msg: S) {
+        self.err_msg = Some(msg.into());
+    }
 }
 
 impl Default for State {
     fn default() -> Self {
-        Self::new(true)
+        Self::new(true, None)
     }
 }
