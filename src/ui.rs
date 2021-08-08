@@ -12,9 +12,7 @@ pub(crate) fn ui_builder<K: Keyboard>(keyboard: K) -> impl Widget<State> {
 
     let btn_label = Label::new(|state: &State, _env: &Env| state.button_text()).with_text_size(18.);
     let button = Button::from_label(btn_label)
-        .on_click(move |_ctx, state, _env| {
-            toggle_keyboard(state, keyboard);
-        })
+        .on_click(move |_ctx, state, _env| toggle_keyboard(state, keyboard))
         .disabled_if(|state: &State, _env: &Env| state.has_err())
         .padding(15.);
 
