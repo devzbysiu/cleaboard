@@ -4,7 +4,7 @@ use druid::widget::{Button, Flex, Label};
 use druid::{Env, Widget, WidgetExt};
 use log::error;
 
-pub(crate) fn ui_builder<K: Keyboard>(keyboard: K) -> impl Widget<State> {
+pub(crate) fn ui_builder(keyboard: impl Keyboard) -> impl Widget<State> {
     let header = Label::new(|state: &State, _env: &Env| state.log_text())
         .with_text_size(18.)
         .padding(15.)
@@ -19,7 +19,7 @@ pub(crate) fn ui_builder<K: Keyboard>(keyboard: K) -> impl Widget<State> {
     Flex::column().with_child(header).with_child(button)
 }
 
-fn toggle_keyboard<K: Keyboard>(state: &mut State, keyboard: K) {
+fn toggle_keyboard(state: &mut State, keyboard: impl Keyboard) {
     state.toggle();
     if state.enabled() {
         turn_on_keyboard(state, keyboard);
@@ -28,7 +28,7 @@ fn toggle_keyboard<K: Keyboard>(state: &mut State, keyboard: K) {
     }
 }
 
-fn turn_on_keyboard<K: Keyboard>(state: &mut State, keyboard: K) {
+fn turn_on_keyboard(state: &mut State, keyboard: impl Keyboard) {
     let res = keyboard.turn_on();
     if res.is_err() {
         error!("failed to turn on the keyboard: {:?}", res);
@@ -36,7 +36,7 @@ fn turn_on_keyboard<K: Keyboard>(state: &mut State, keyboard: K) {
     }
 }
 
-fn turn_off_keyboard<K: Keyboard>(state: &mut State, keyboard: K) {
+fn turn_off_keyboard(state: &mut State, keyboard: impl Keyboard) {
     let res = keyboard.turn_off();
     if res.is_err() {
         error!("failed to turn off the keyboard: {:?}", res);
