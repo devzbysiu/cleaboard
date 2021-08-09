@@ -1,6 +1,6 @@
 use druid::{AppLauncher, PlatformError, WindowDesc};
 
-use keyboard::{Keyboard, PcKeyboard};
+use keyboard::{check_prerequisites, PcKeyboard};
 use state::State;
 use ui::ui_builder;
 
@@ -10,7 +10,7 @@ mod ui;
 
 fn main() -> Result<(), PlatformError> {
     pretty_env_logger::init();
-    let err_msg = match PcKeyboard::check_prerequisites() {
+    let err_msg = match check_prerequisites() {
         Ok(()) => None,
         Err(e) => Some(format!("{}", e)),
     };
