@@ -61,6 +61,7 @@ impl Default for State {
     }
 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 #[cfg(test)]
 mod test {
@@ -84,6 +85,53 @@ mod test {
 #[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    fn test_default_state() {
+        // given
+        let state = State::default();
+
+        // when
+        let enabled = state.enabled();
+
+        // then
+        assert!(enabled);
+    }
+
+    #[test]
+    fn test_toggle() {
+        // given
+        let mut state = State::default();
+        assert!(state.enabled());
+
+        // when
+        state.toggle();
+        assert!(!state.enabled());
+        state.toggle();
+
+        // then
+        assert!(state.enabled());
+    }
+}
+>>>>>>> Stashed changes
+||||||| constructed merge base
+=======
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_button_text() {
+        // given
+        let state = State::default();
+
+        // when
+        let text = state.button_text();
+
+        // then
+        assert_eq!(text, "Turn off the keyboard");
+    }
 
     #[test]
     fn test_default_state() {
