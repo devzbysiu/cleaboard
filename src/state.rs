@@ -60,6 +60,7 @@ impl Default for State {
         Self::new(true, None)
     }
 }
+<<<<<<< Updated upstream
 
 #[cfg(test)]
 mod test {
@@ -77,3 +78,38 @@ mod test {
         assert!(enabled);
     }
 }
+||||||| constructed merge base
+=======
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_default_state() {
+        // given
+        let state = State::default();
+
+        // when
+        let enabled = state.enabled();
+
+        // then
+        assert!(enabled);
+    }
+
+    #[test]
+    fn test_toggle() {
+        // given
+        let mut state = State::default();
+        assert!(state.enabled());
+
+        // when
+        state.toggle();
+        assert!(!state.enabled());
+        state.toggle();
+
+        // then
+        assert!(state.enabled());
+    }
+}
+>>>>>>> Stashed changes
