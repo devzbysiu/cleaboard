@@ -60,3 +60,20 @@ impl Default for State {
         Self::new(true, None)
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_default_state() {
+        // given
+        let state = State::default();
+
+        // when
+        let enabled = state.enabled();
+
+        // then
+        assert!(enabled);
+    }
+}
