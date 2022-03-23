@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - run: sudo apt install libpango1.0-dev
+    - run: sudo apt install libgtk-3-dev
     - name: Checkout Repo
       uses: actions/checkout@v2
 
