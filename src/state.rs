@@ -91,6 +91,31 @@ mod test {
     }
 
     #[test]
+    fn test_log_text() {
+        // given
+        let state = State::default();
+
+        // when
+        let msg = state.log_text();
+
+        // then
+        assert_eq!(msg, "Keyboard is turned on");
+    }
+
+    #[test]
+    fn test_log_text_when_keyboard_disabled() {
+        // given
+        let mut state = State::default();
+        state.toggle();
+
+        // when
+        let msg = state.log_text();
+
+        // then
+        assert_eq!(msg, "Keyboard is turned off! You can start cleaning :)");
+    }
+
+    #[test]
     fn test_default_state() {
         // given
         let state = State::default();
