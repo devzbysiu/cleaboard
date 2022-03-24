@@ -116,6 +116,19 @@ mod test {
     }
 
     #[test]
+    fn test_log_text_err_msg_set() {
+        // given
+        let not_important = true;
+        let state = State::new(not_important, Some("some error message".into()));
+
+        // when
+        let msg = state.log_text();
+
+        // then
+        assert_eq!(msg, "some error message");
+    }
+
+    #[test]
     fn test_default_state() {
         // given
         let state = State::default();
