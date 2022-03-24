@@ -18,14 +18,13 @@ name = "cleaboard"
 version = "0.1.0"
 authors = ["Bartosz Zbytniewski <bartosz.zbytniewski.dev@gmail.com>"]
 edition = "2021"
-description = ""
+description = "Utility for disabling keyboard to make cleaning easier"
 repository = "https://github.com/devzbysiu/cleaboard"
 license = "MIT/Apache-2.0"
 readme = "README.md"
-keywords = []
-categories = []
-homepage = ""
-documentation = ""
+keywords = ["keyboard", "disable", "cleaning"]
+categories = ["command-line-utilities"]
+documentation = "https://docs.rs/cleabord"
 
 [dependencies]
 anyhow = "1.0.42"
