@@ -47,17 +47,17 @@ fn turn_off_keyboard(state: &mut State, keyboard: impl Keyboard) {
 #[cfg(test)]
 mod test {
     use super::*;
-    use anyhow::anyhow;
+    use anyhow::{anyhow, Result};
 
     #[derive(Debug, Clone, Copy)]
     struct ErrorKeyboardStub;
 
     impl Keyboard for ErrorKeyboardStub {
-        fn turn_on(&self) -> anyhow::Result<()> {
+        fn turn_on(&self) -> Result<()> {
             Err(anyhow!("error stub"))
         }
 
-        fn turn_off(&self) -> anyhow::Result<()> {
+        fn turn_off(&self) -> Result<()> {
             Err(anyhow!("error stub"))
         }
     }
@@ -73,5 +73,19 @@ mod test {
 
         // then
         assert_eq!(state.log_text(), "Error while turning off keyboard");
+    }
+
+    #[test]
+    fn test_toggle_keyboard_with_failing_keyboard_when_it_is_disabled() {
+        // given
+        let not_important = None;
+        let mut state = State::new(false, not_important);
+        let error_keyboard = ErrorKeyboardStub;
+
+        // when
+        toggle_keyboard(&mut state, error_keyboard);
+
+        // then
+        assert_eq!(state.log_text(), "Error while turning on keyboard");
     }
 }
