@@ -35,15 +35,23 @@
 
 # <p id="about">About</p>
 
-This is small piece of software which allows to disable the keyboard.
-The initial purpose of this is to make keyboard cleaning easier. You
-just start Cleaboard, click a button and start cleaning your keyboard
-without worrying about pressing random keys. When you are done, just
-click the button one more time and the keyboard will be responsive again.
+> :warning: This is work in progress, but it's already usable. You can also take an inspiration for
+your own projects :).
+
+This is small piece of software which allows disabling the keyboard. The purpose of this is to make
+keyboard cleaning easier. You just start `cleaboard`, click a button and start cleaning your keyboard
+without worrying about pressing random keys. When you are done, just click the button one more time
+and the keyboard will be responsive again.
+
+It requires `xinput` to be installed, so it's Linux / macOS only.
 
 # <p id="installation">Installation</p>
 
-## --- TODO ---
+1. First make sure you have `xinput` installed. It is used to disable and enable the keyboard.
+   If you don't have it on you system, then `cleabord` will display an error log, and it won't be
+   usable.
+2. Install `cleaboard` by going to [Releases](https://github.com/devzbysiu/cleaboard/releases) page and download the latest release.
+3. Unpack it and put `cleabord` binary in your `PATH` variable.
 
 # <p id="license">License</p>
 
@@ -52,7 +60,7 @@ This project is licensed under either of
 - Apache License, Version 2.0, (LICENSE-APACHE or http://www.apache.org/licenses/LICENSE-2.0)
 - MIT license (LICENSE-MIT or http://opensource.org/licenses/MIT)
 
-at your option.
+At your option.
 
 # <p id="contribution">Contribution</p>
 
