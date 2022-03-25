@@ -62,6 +62,19 @@ mod test {
         }
     }
 
+    #[derive(Debug, Clone, Copy)]
+    struct SuccessKeyboardStub;
+
+    impl Keyboard for SuccessKeyboardStub {
+        fn turn_on(&self) -> Result<()> {
+            Ok(())
+        }
+
+        fn turn_off(&self) -> Result<()> {
+            Ok(())
+        }
+    }
+
     #[test]
     fn test_toggle_keyboard_with_failing_keyboard() {
         // given
@@ -87,5 +100,32 @@ mod test {
 
         // then
         assert_eq!(state.log_text(), "Error while turning on keyboard");
+    }
+
+    #[test]
+    fn test_toggle_keyboard_with_success_keyboard() {
+        // given
+        let mut state = State::default();
+        let success_keyboard = SuccessKeyboardStub;
+
+        // when
+        toggle_keyboard(&mut state, success_keyboard);
+
+        // then
+        assert!(!state.has_err());
+    }
+
+    #[test]
+    fn test_toggle_keyboard_with_success_keyboard_when_it_is_disabled() {
+        // given
+        let not_important = None;
+        let mut state = State::new(false, not_important);
+        let success_keyboard = SuccessKeyboardStub;
+
+        // when
+        toggle_keyboard(&mut state, success_keyboard);
+
+        // then
+        assert!(!state.has_err());
     }
 }
