@@ -76,6 +76,18 @@ mod test {
     }
 
     #[test]
+    fn test_ui_builder_work_without_errors() {
+        // given
+        let keyboard = SuccessKeyboardStub;
+
+        // when
+        ui_builder(keyboard);
+
+        // then
+        // no errors
+    }
+
+    #[test]
     fn test_toggle_keyboard_with_failing_keyboard() {
         // given
         let mut state = State::default();
