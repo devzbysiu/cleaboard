@@ -1,20 +1,40 @@
 use anyhow::{anyhow, Result};
+use log::debug;
 use std::process::Command;
 
-pub(crate) trait Keyboard: Copy + 'static {
+pub(crate) trait Keyboard: Clone + 'static {
     fn turn_on(&self) -> Result<()>;
 
     fn turn_off(&self) -> Result<()>;
 }
 
-#[derive(Debug, Default, Clone, Copy)]
-pub(crate) struct PcKeyboard;
+#[derive(Debug, Default, Clone)]
+pub(crate) struct PcKeyboard {
+    device_id: String,
+}
+
+impl PcKeyboard {
+    pub(crate) fn new() -> Result<Self> {
+        let device_id = String::from_utf8(
+            Command::new("xinput")
+                .arg("list")
+                .arg("--id-only")
+                .arg("AT Translated Set 2 keyboard")
+                .output()?
+                .stdout,
+        )?
+        .trim()
+        .into();
+        debug!("found device id: {}", device_id);
+        Ok(Self { device_id })
+    }
+}
 
 impl Keyboard for PcKeyboard {
     fn turn_on(&self) -> Result<()> {
         Command::new("xinput")
             .arg("reattach")
-            .arg("17")
+            .arg(&self.device_id)
             .arg("3")
             .spawn()?;
 
@@ -22,7 +42,10 @@ impl Keyboard for PcKeyboard {
     }
 
     fn turn_off(&self) -> Result<()> {
-        Command::new("xinput").arg("float").arg("17").spawn()?;
+        Command::new("xinput")
+            .arg("float")
+            .arg(&self.device_id)
+            .spawn()?;
         Ok(())
     }
 }

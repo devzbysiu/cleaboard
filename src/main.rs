@@ -14,7 +14,7 @@ fn main() -> Result<(), PlatformError> {
         Ok(()) => None,
         Err(e) => Some(format!("{}", e)),
     };
-    let main_window = WindowDesc::new(ui_builder(PcKeyboard::default()))
+    let main_window = WindowDesc::new(ui_builder(PcKeyboard::new()?))
         .title("Cleaboard")
         .window_size((450., 120.))
         .set_position((800., 200.));
