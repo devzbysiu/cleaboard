@@ -11,19 +11,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [ubuntu-latest]
         rust: [stable]
         include:
-          - os: macos-latest
-            artifact_prefix: macos
-            target: x86_64-apple-darwin
-            binary_postfix: ""
           - os: ubuntu-latest
             artifact_prefix: linux
             target: x86_64-unknown-linux-gnu
             binary_postfix: ""
 
     steps:
+      - name: Update apt
+        run: sudo apt update
+      - name: Install libgtk-3-dev
+        run: sudo apt install libgtk-3-dev
       - name: Installing Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
