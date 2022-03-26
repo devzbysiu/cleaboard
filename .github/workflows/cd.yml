@@ -42,15 +42,15 @@ jobs:
         shell: bash
         run: |
           cd target/${{ matrix.target }}/release
-          strip cleabord${{ matrix.binary_postfix }}
-          tar czvf cleabord-${{ matrix.artifact_prefix }}.tar.gz cleabord${{ matrix.binary_postfix }}
+          strip cleaboard${{ matrix.binary_postfix }}
+          tar czvf cleaboard-${{ matrix.artifact_prefix }}.tar.gz cleaboard${{ matrix.binary_postfix }}
 
-          shasum -a 256 cleabord-${{ matrix.artifact_prefix }}.tar.gz > cleabord-${{ matrix.artifact_prefix }}.sha256
+          shasum -a 256 cleaboard-${{ matrix.artifact_prefix }}.tar.gz > cleaboard-${{ matrix.artifact_prefix }}.sha256
       - name: Releasing assets
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            target/${{ matrix.target }}/release/cleabord-${{ matrix.artifact_prefix }}.tar.gz
-            target/${{ matrix.target }}/release/cleabord-${{ matrix.artifact_prefix }}.sha256
+            target/${{ matrix.target }}/release/cleaboard-${{ matrix.artifact_prefix }}.tar.gz
+            target/${{ matrix.target }}/release/cleaboard-${{ matrix.artifact_prefix }}.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
