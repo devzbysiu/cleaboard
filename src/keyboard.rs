@@ -1,4 +1,5 @@
 use anyhow::{anyhow, Result};
+use cmd_lib::{run_cmd, run_fun};
 use log::debug;
 use std::process::Command;
 
@@ -15,16 +16,7 @@ pub(crate) struct PcKeyboard {
 
 impl PcKeyboard {
     pub(crate) fn new() -> Result<Self> {
-        let device_id = String::from_utf8(
-            Command::new("xinput")
-                .arg("list")
-                .arg("--id-only")
-                .arg("AT Translated Set 2 keyboard")
-                .output()?
-                .stdout,
-        )?
-        .trim()
-        .into();
+        let device_id = run_fun!(xinput list --id-only "AT Translated Set 2 keyboard")?;
         debug!("found device id: {}", device_id);
         Ok(Self { device_id })
     }
@@ -32,20 +24,14 @@ impl PcKeyboard {
 
 impl Keyboard for PcKeyboard {
     fn turn_on(&self) -> Result<()> {
-        Command::new("xinput")
-            .arg("reattach")
-            .arg(&self.device_id)
-            .arg("3")
-            .spawn()?;
-
+        let device_id = &self.device_id;
+        run_cmd!(xinput reattach $device_id 3)?;
         Ok(())
     }
 
     fn turn_off(&self) -> Result<()> {
-        Command::new("xinput")
-            .arg("float")
-            .arg(&self.device_id)
-            .spawn()?;
+        let device_id = &self.device_id;
+        run_cmd!(xinput float $device_id)?;
         Ok(())
     }
 }

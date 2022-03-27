@@ -28,6 +28,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.42"
+cmd_lib = "1.3.0"
 druid = { git = "https://github.com/linebender/druid" }
 log = "0.4.11"
 pretty_env_logger = "0.4.0"
