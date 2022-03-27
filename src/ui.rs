@@ -12,14 +12,14 @@ pub(crate) fn ui_builder(keyboard: impl Keyboard) -> impl Widget<State> {
 
     let btn_label = Label::new(|state: &State, _env: &Env| state.button_text()).with_text_size(18.);
     let button = Button::from_label(btn_label)
-        .on_click(move |_ctx, state, _env| toggle_keyboard(state, keyboard.clone()))
+        .on_click(move |_ctx, state, _env| toggle_keyboard(state, &keyboard.clone()))
         .disabled_if(|state: &State, _env: &Env| state.has_err())
         .padding(15.);
 
     Flex::column().with_child(header).with_child(button)
 }
 
-fn toggle_keyboard(state: &mut State, keyboard: impl Keyboard) {
+fn toggle_keyboard(state: &mut State, keyboard: &impl Keyboard) {
     state.toggle();
     if state.enabled() {
         turn_on_keyboard(state, keyboard);
@@ -28,7 +28,7 @@ fn toggle_keyboard(state: &mut State, keyboard: impl Keyboard) {
     }
 }
 
-fn turn_on_keyboard(state: &mut State, keyboard: impl Keyboard) {
+fn turn_on_keyboard(state: &mut State, keyboard: &impl Keyboard) {
     let res = keyboard.turn_on();
     if res.is_err() {
         error!("failed to turn on the keyboard: {:?}", res);
@@ -36,7 +36,7 @@ fn turn_on_keyboard(state: &mut State, keyboard: impl Keyboard) {
     }
 }
 
-fn turn_off_keyboard(state: &mut State, keyboard: impl Keyboard) {
+fn turn_off_keyboard(state: &mut State, keyboard: &impl Keyboard) {
     let res = keyboard.turn_off();
     if res.is_err() {
         error!("failed to turn off the keyboard: {:?}", res);
@@ -94,7 +94,7 @@ mod test {
         let error_keyboard = ErrorKeyboardStub;
 
         // when
-        toggle_keyboard(&mut state, error_keyboard);
+        toggle_keyboard(&mut state, &error_keyboard);
 
         // then
         assert_eq!(state.log_text(), "Error while turning off keyboard");
@@ -108,7 +108,7 @@ mod test {
         let error_keyboard = ErrorKeyboardStub;
 
         // when
-        toggle_keyboard(&mut state, error_keyboard);
+        toggle_keyboard(&mut state, &error_keyboard);
 
         // then
         assert_eq!(state.log_text(), "Error while turning on keyboard");
@@ -121,7 +121,7 @@ mod test {
         let success_keyboard = SuccessKeyboardStub;
 
         // when
-        toggle_keyboard(&mut state, success_keyboard);
+        toggle_keyboard(&mut state, &success_keyboard);
 
         // then
         assert!(!state.has_err());
@@ -135,7 +135,7 @@ mod test {
         let success_keyboard = SuccessKeyboardStub;
 
         // when
-        toggle_keyboard(&mut state, success_keyboard);
+        toggle_keyboard(&mut state, &success_keyboard);
 
         // then
         assert!(!state.has_err());
