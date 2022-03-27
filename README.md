@@ -35,23 +35,27 @@
 
 # <p id="about">About</p>
 
-> :warning: This is work in progress, but it's already usable. You can also take an inspiration for
-your own projects :).
+> :warning: This is work in progress, it's already usable, but it may not work on your end yet. It's
+because I'm using `xinput` to disable and enable keyboard and there is no sophisticated device ID
+detection in place yet.
 
 This is small piece of software which allows disabling the keyboard. The purpose of this is to make
 keyboard cleaning easier. You just start `cleaboard`, click a button and start cleaning your keyboard
 without worrying about pressing random keys. When you are done, just click the button one more time
 and the keyboard will be responsive again.
 
-It requires `xinput` to be installed, so it's Linux / macOS only.
+It requires `xinput` to be installed, and currently it's Linux only.
 
 # <p id="installation">Installation</p>
 
 1. First make sure you have `xinput` installed. It is used to disable and enable the keyboard.
+   ```sh
+   xinput --version
+   ```
    If you don't have it on you system, then `cleabord` will display an error log, and it won't be
    usable.
-2. Install `cleaboard` by going to [Releases](https://github.com/devzbysiu/cleaboard/releases) page and download the latest release.
-3. Unpack it and put `cleabord` binary in your `PATH` variable.
+3. Install `cleaboard` by going to [Releases](https://github.com/devzbysiu/cleaboard/releases) page and download the latest release.
+4. Unpack it and put `cleabord` binary in your `PATH` variable.
 
 # <p id="license">License</p>
 
