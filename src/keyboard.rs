@@ -1,7 +1,6 @@
 use anyhow::{anyhow, Result};
 use cmd_lib::{run_cmd, run_fun};
 use log::debug;
-use std::process::Command;
 
 pub(crate) trait Keyboard: Clone + 'static {
     fn turn_on(&self) -> Result<()>;
@@ -37,8 +36,8 @@ impl Keyboard for PcKeyboard {
 }
 
 pub(crate) fn check_xinput() -> Result<()> {
-    match Command::new("xinput").arg("--version").status() {
-        Ok(status) if status.success() => Ok(()),
+    match run_cmd!(xinput --version) {
+        Ok(()) => Ok(()),
         _ => Err(anyhow!("Looks like 'xinput' is not available. Please ensure it's working by running 'xinput --version'")),
     }
 }
