@@ -40,9 +40,13 @@ and the keyboard will be responsive again.
 
 It requires `xinput` to be installed, and currently it's Linux only.
 
-![Demo Keyboard Enabled](./res/enabled.png)
+<div align="center">
 
-![Demo Keyboard Disabled](./res/disabled.png)
+  ![Demo Keyboard Enabled](./res/enabled.png)
+
+  ![Demo Keyboard Disabled](./res/disabled.png)
+
+</div>
 
 # <p id="installation">Installation</p>
 
