@@ -7,17 +7,11 @@
   </h3>
 
   <p>
-   <img src="https://github.com/devzbysiu/cleaboard/workflows/ci/badge.svg" alt="CI status
-    badge" />
+    <img src="https://img.shields.io/github/workflow/status/devzbysiu/cleaboard/ci?style=for-the-badge" alt="CI status badge" />
     <a href="https://codecov.io/gh/devzbysiu/cleaboard">
       <img src="https://img.shields.io/codecov/c/github/devzbysiu/cleaboard?style=for-the-badge&token=f2339b3de9e44be0a902458a669c1160" alt="Code coverage"/>
     </a>
-    <a href="https://crates.io/crates/cleaboard">
-      <img src="https://img.shields.io/crates/l/cleaboard?style=for-the-badge" alt="License"/>
-    </a>
-    <a href="https://docs.rs/cleaboard">
-      <img src="https://img.shields.io/badge/docs-latest-blue.svg?style=for-the-badge" alt="docs.rs docs" />
-    </a>
+    <img src="https://img.shields.io/badge/license-MIT%2FAPACHE--2.0-blue?style=for-the-badge" alt="License"/>
   </p>
 
   <h3>
@@ -54,7 +48,7 @@ It requires `xinput` to be installed, and currently it's Linux only.
    ```
    If you don't have it on you system, then `cleabord` will display an error log, and it won't be
    usable.
-3. Install `cleaboard` by going to [Releases](https://github.com/devzbysiu/cleaboard/releases) page and download the latest release.
+3. Install `cleaboard` by going to [Releases](https://github.com/devzbysiu/cleaboard/releases) page and downloading the latest release.
 4. Unpack it and put `cleabord` binary in your `PATH` variable.
 
 # <p id="license">License</p>
