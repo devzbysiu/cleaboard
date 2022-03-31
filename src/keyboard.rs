@@ -16,6 +16,7 @@ pub(crate) struct PcKeyboard {
 impl PcKeyboard {
     pub(crate) fn new() -> Result<Self> {
         let device_id = run_fun!(xinput list --id-only "AT Translated Set 2 keyboard")?;
+        let device_id = device_id.trim().to_string();
         debug!("found device id: {}", device_id);
         Ok(Self { device_id })
     }
