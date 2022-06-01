@@ -1,6 +1,6 @@
 use druid::{AppLauncher, PlatformError, WindowDesc};
 
-use keyboard::{check_xinput, PcKeyboard};
+use crate::keyboard::{check_xinput, PcKeyboard};
 use state::State;
 use ui::ui_builder;
 
