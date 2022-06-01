@@ -1,8 +1,8 @@
-use druid::{AppLauncher, PlatformError, WindowDesc};
-
 use crate::keyboard::{check_xinput, PcKeyboard};
-use state::State;
-use ui::ui_builder;
+use crate::state::State;
+use crate::ui::ui_builder;
+
+use druid::{AppLauncher, PlatformError, WindowDesc};
 
 mod keyboard;
 mod state;
