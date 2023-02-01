@@ -12,7 +12,7 @@ fn main() -> Result<(), PlatformError> {
     pretty_env_logger::init();
     let err_msg = match check_xinput() {
         Ok(()) => None,
-        Err(e) => Some(format!("{}", e)),
+        Err(e) => Some(format!("{e}")),
     };
     let main_window = WindowDesc::new(ui_builder(PcKeyboard::new()?))
         .title("Cleaboard")
